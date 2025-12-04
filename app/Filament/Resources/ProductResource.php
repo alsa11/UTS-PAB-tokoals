@@ -30,6 +30,7 @@ class ProductResource extends Resource
                     ->required()
                     ->maxLength(100),
                 Forms\Components\TextInput::make('price')
+                    ->label('Harga')
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
@@ -39,6 +40,17 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('quantity')
                     ->required()
                     ->numeric(),
+                Forms\Components\Select::make('categories.id')
+                    ->relationship('categories', 'category_name')
+                    ->multiple()
+                    ->preload(),
+                Forms\Components\Textarea::make('product_description_short')
+                    ->required()
+                    ->rows(5)
+                    ->maxLength(255),
+                Forms\Components\RichEditor::make('product_description_long')
+                    ->columnSpan('full')
+                    ->required(),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('product_image')
                     ->image()
                     ->required()
@@ -59,6 +71,7 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('product_code')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
+                    ->money('idr', true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tanggal_masuk')
                     ->date()
@@ -66,6 +79,9 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('quantity')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('categories.category_name')
+                    ->badge()
+                    ->color('success'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

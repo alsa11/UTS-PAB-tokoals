@@ -13,6 +13,13 @@ class Product extends Model implements \Spatie\MediaLibrary\HasMedia
         'product_code',
         'price',
         'tanggal_masuk',
-        'quantity'
+        'quantity',
+        'product_description_short',
+        'product_description_long',
     ];
+
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'product_categories');
+    }
 }
